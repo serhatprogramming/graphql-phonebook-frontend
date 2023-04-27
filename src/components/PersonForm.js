@@ -2,7 +2,7 @@ import React, { useState } from "react";
 // apollo-client
 import { useMutation } from "@apollo/client";
 // queries
-import { CREATE_PERSON } from "../queries";
+import { ALL_PERSONS, CREATE_PERSON } from "../queries";
 
 const PersonForm = () => {
   // form field states
@@ -12,7 +12,9 @@ const PersonForm = () => {
   const [city, setCity] = useState("");
 
   // mutation function create
-  const [createPerson] = useMutation(CREATE_PERSON);
+  const [createPerson] = useMutation(CREATE_PERSON, {
+    refetchQueries: [{ query: ALL_PERSONS }],
+  });
 
   // form submit method...
   const submit = (e) => {
