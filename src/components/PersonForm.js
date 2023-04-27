@@ -1,25 +1,8 @@
 import React, { useState } from "react";
 // apollo-client
-import { useMutation, gql } from "@apollo/client";
-
-const CREATE_PERSON = gql`
-  mutation createPerson(
-    $name: String!
-    $street: String!
-    $city: String!
-    $phone: String
-  ) {
-    addPerson(name: $name, street: $street, city: $city, phone: $phone) {
-      name
-      phone
-      id
-      address {
-        street
-        city
-      }
-    }
-  }
-`;
+import { useMutation } from "@apollo/client";
+// queries
+import { CREATE_PERSON } from "../queries";
 
 const PersonForm = () => {
   // form field states
@@ -79,7 +62,7 @@ const PersonForm = () => {
           />
         </div>
 
-        <button>Submit</button>
+        <button>add person</button>
       </form>
     </div>
   );
