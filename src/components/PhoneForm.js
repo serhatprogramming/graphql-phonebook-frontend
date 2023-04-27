@@ -1,15 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 // apollo
 import { useMutation } from "@apollo/client";
 // queries
 import { EDIT_NUMBER } from "../queries";
 
-const PhoneForm = () => {
+const PhoneForm = ({ setError }) => {
   // form field states
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
 
-  const [editNumber] = useMutation(EDIT_NUMBER);
+  const [editNumber, result] = useMutation(EDIT_NUMBER);
+
+  useEffect(() => {
+    if (result.data && !result.data.editNumber) {
+      setError("name not found");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [result.data]);
 
   const changeNumber = (e) => {
     e.preventDefault();
