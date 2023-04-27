@@ -13,20 +13,6 @@ const ALL_PERSONS = gql`
     }
   }
 `;
-// query find person by name
-const FIND_PERSON = gql`
-  query findPersonByName($nameToSearch: String!) {
-    findPerson(name: $nameToSearch) {
-      name
-      phone
-      id
-      address {
-        street
-        city
-      }
-    }
-  }
-`;
 
 const App = () => {
   const result = useQuery(ALL_PERSONS);
