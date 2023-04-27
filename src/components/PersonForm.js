@@ -4,7 +4,7 @@ import { useMutation } from "@apollo/client";
 // queries
 import { ALL_PERSONS, CREATE_PERSON } from "../queries";
 
-const PersonForm = () => {
+const PersonForm = ({ setError }) => {
   // form field states
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -14,12 +14,14 @@ const PersonForm = () => {
   // mutation function create
   const [createPerson] = useMutation(CREATE_PERSON, {
     refetchQueries: [{ query: ALL_PERSONS }],
+    onError: (error) => {
+      setError(error.graphQLErrors[0].message);
+    },
   });
 
   // form submit method...
   const submit = (e) => {
     e.preventDefault();
-    console.log("submitted...of...", name, phone, street, city);
     createPerson({ variables: { name, street, city, phone } });
     setCity("");
     setStreet("");
