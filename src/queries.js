@@ -45,3 +45,18 @@ export const CREATE_PERSON = gql`
     }
   }
 `;
+
+// query edit phone number
+export const EDIT_NUMBER = gql`
+  mutation editNumber($name: String!, $phone: String!) {
+    editNumber(name: $name, phone: $phone) {
+      name
+      phone
+      id
+      address {
+        street
+        city
+      }
+    }
+  }
+`;
