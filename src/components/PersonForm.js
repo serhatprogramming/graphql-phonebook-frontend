@@ -13,9 +13,15 @@ const PersonForm = ({ setError }) => {
 
   // mutation function create
   const [createPerson] = useMutation(CREATE_PERSON, {
-    refetchQueries: [{ query: ALL_PERSONS }],
     onError: (error) => {
       setError(error.graphQLErrors[0].message);
+    },
+    update: (cache, response) => {
+      cache.updateQuery({ query: ALL_PERSONS }, ({ allPersons }) => {
+        return {
+          allPersons: allPersons.concat(response.data.addPerson),
+        };
+      });
     },
   });
 
