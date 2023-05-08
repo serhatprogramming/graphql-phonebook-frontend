@@ -12,6 +12,24 @@ import LoginForm from "./components/LoginForm";
 import { ALL_PERSONS } from "./queries";
 import { PERSON_ADDED } from "./queries";
 
+// function that takes care of manipulating cache
+export const updateCache = (cache, query, addedPerson) => {
+  // helper that is used to eliminate saving same person twice
+  const uniqByName = (a) => {
+    let seen = new Set();
+    return a.filter((item) => {
+      let k = item.name;
+      return seen.has(k) ? false : seen.add(k);
+    });
+  };
+
+  cache.updateQuery(query, ({ allPersons }) => {
+    return {
+      allPersons: uniqByName(allPersons.concat(addedPerson)),
+    };
+  });
+};
+
 const App = () => {
   // token state
   const [token, setToken] = useState(null);
@@ -24,7 +42,10 @@ const App = () => {
   // subscription for person added
   useSubscription(PERSON_ADDED, {
     onData: ({ data }) => {
-      console.log(data);
+      const addedPerson = data.data.personAdded;
+      notify(`${addedPerson.name} added`);
+
+      updateCache(client.cache, { query: ALL_PERSONS }, addedPerson);
     },
   });
   // logout
