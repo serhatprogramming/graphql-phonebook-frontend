@@ -75,3 +75,13 @@ export const LOGIN = gql`
     }
   }
 `;
+
+// person added with web sockets and subcription
+export const PERSON_ADDED = gql`
+  subscription {
+    personAdded {
+      ...PersonDetails
+    }
+  }
+  ${PERSON_DETAILS}
+`;

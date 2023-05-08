@@ -1,7 +1,7 @@
 // react
 import { useState } from "react";
 // apollo client useQuery
-import { useApolloClient, useQuery } from "@apollo/client";
+import { useApolloClient, useQuery, useSubscription } from "@apollo/client";
 // components
 import Persons from "./components/Persons";
 import PersonForm from "./components/PersonForm";
@@ -10,6 +10,7 @@ import PhoneForm from "./components/PhoneForm";
 import LoginForm from "./components/LoginForm";
 // queries
 import { ALL_PERSONS } from "./queries";
+import { PERSON_ADDED } from "./queries";
 
 const App = () => {
   // token state
@@ -20,6 +21,12 @@ const App = () => {
   const client = useApolloClient();
   // all persons query
   const result = useQuery(ALL_PERSONS);
+  // subscription for person added
+  useSubscription(PERSON_ADDED, {
+    onData: ({ data }) => {
+      console.log(data);
+    },
+  });
   // logout
   const logout = () => {
     setToken(null);
